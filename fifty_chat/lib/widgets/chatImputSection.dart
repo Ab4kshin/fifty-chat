@@ -8,11 +8,20 @@ class ChatImputSection extends StatelessWidget {
     print('Открытие галереи'); // TODO Сделать открытие галереи
   }
 
-  void _launchURL(String url) async {
-    final Uri uri = Uri.parse(url);
-    if (!await launchUrl(uri)) throw 'Не получилось запустить $url';
-  }
-
+// Future<void> _launchURL(String url) async {
+//   final Uri uri = Uri.parse(url);
+//   try {
+//     // mode: LaunchMode.externalApplication — это КЛЮЧЕВОЙ момент. 
+//     // Он говорит системе: "Просто открой нормальный браузер Safari"
+//     await launchUrl(uri, mode: LaunchMode.externalApplication);
+//   } catch (e) {
+//     print('Ошибка при запуске: $e');
+//   }
+// }
+void _launchURL(String url) async {
+  final Uri uri = Uri.parse(url);
+  if (!await launchUrl(uri)) throw 'Не получилось запустить $url';
+}
   @override
   Widget build(BuildContext context) {
     return Column(

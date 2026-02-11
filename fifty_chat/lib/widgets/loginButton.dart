@@ -1,3 +1,4 @@
+import 'package:fifty_chat/screens/authScreeen.dart';
 import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
@@ -7,7 +8,10 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: (){
-        print('asd'); // TODO Сделать экран авторизации
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AuthScreeen())
+        );
       },
       style: TextButton.styleFrom(
         backgroundColor: const Color(0xFF262626),
