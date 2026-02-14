@@ -1,12 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ChatImputSection extends StatelessWidget {
   const ChatImputSection({super.key});
 
-  void _openGallery(){
-    print('Открытие галереи'); // TODO Сделать открытие галереи
+  static final ImagePicker _picker = ImagePicker();
+
+  // 2. Функция для открытия галереи
+  Future<void> _openGallery() async {
+    try {
+      // Вызываем галерею
+      final XFile? image = await _picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 80, // Опционально: сжимаем фото, чтобы не висло
+      );
+
+      if (image != null) {
+        print('Файл выбран: ${image.path}');
+        // Здесь позже добавим логику отображения картинки в чате
+      } else {
+        print('Пользователь отменил выбор');
+      }
+    } catch (e) {
+      print('Ошибка при выборе фото: $e');
+    }
   }
+
 
 // Future<void> _launchURL(String url) async {
 //   final Uri uri = Uri.parse(url);
@@ -75,7 +95,7 @@ void _launchURL(String url) async {
                 ),
                 IconButton(
                   icon: const Icon(Icons.play_arrow_rounded, color: Colors.white), // Самолетик/стрелка
-                  onPressed: () => print('Запрос отправлен'),
+                  onPressed: () {},
                 ),
               ],
             ),
