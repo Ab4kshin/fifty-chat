@@ -113,15 +113,15 @@ class _ChatScreenState extends State<ChatScreen> {
         padding: const EdgeInsets.all(12),
         constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
         decoration: BoxDecoration(
-          color: msg.isUser ? const Color(0xFF5CB85C) : const Color(0xFF262626),
+          color: msg.isUser ? const Color(0xFF325732) : const Color(0xFF262626),
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(20),
             topRight: const Radius.circular(20),
-            bottomLeft: msg.isUser ? const Radius.circular(20) : const Radius.circular(4),
-            bottomRight: msg.isUser ? const Radius.circular(4) : const Radius.circular(20),
+            bottomLeft: msg.isUser ? const Radius.circular(18) : const Radius.circular(4),
+            bottomRight: msg.isUser ? const Radius.circular(4) : const Radius.circular(18),
           ),
         ),
-        child: Text(msg.text, style: const TextStyle(color: Colors.white, fontSize: 16)),
+        child: SelectableText(msg.text, style: const TextStyle(color: Colors.white, fontSize: 16)),
       ),
     );
   }
