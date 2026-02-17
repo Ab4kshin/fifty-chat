@@ -1,5 +1,5 @@
 name: fifty_chat
-description: "A new Flutter project."
+description: "Приложение сайта https://chat.fifty.su"
 publish_to: 'none' 
 version: 1.0.0+1
 
@@ -13,14 +13,23 @@ dependencies:
   url_launcher: ^6.3.2
   image_picker: ^1.2.1
   http: ^1.6.0
+  flutter_markdown: ^0.7.7+1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
 flutter:
   uses-material-design: true
   assets:
         - lib/assets/icons/google.png
         - lib/assets/icons/github.png
         - lib/assets/icons/vk.png
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "lib/assets/icons/FiftyChatLogo.png" # Путь к твоему логотипу
+  adaptive_icon_background: "#161616" # Цвет фона для новых версий Android
+  adaptive_icon_foreground: "lib/assets/icons/FiftyChatLogo.png"
