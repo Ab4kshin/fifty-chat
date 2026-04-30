@@ -1,9 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ChatInputSection extends StatefulWidget {
-  final Function(String) onSendPressed;
+  final Function(String text, String? b64Image) onSendPressed;
 
   const ChatInputSection({super.key, required this.onSendPressed});
 
@@ -15,31 +17,58 @@ class _ChatInputSectionState extends State<ChatInputSection> {
   final TextEditingController _controller = TextEditingController();
   final ImagePicker _picker = ImagePicker();
 
-  // Отправка сообщения
-  void _handleSend() {
-    final text = _controller.text.trim();
-    if (text.isEmpty) return;
-    
-    widget.onSendPressed(text); // Передаем текст в HomeScreen
-    _controller.clear(); // Очищаем поле ввода
-  }
+  String? _base64Image; // Сюда сохраним картинку
 
-  // Открытие галереи
-  Future<void> _openGallery() async {
-    try {
-      final XFile? image = await _picker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 80,
-      );
+  // Функция выбора картинки
+  Future<void> _pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 50, // Сжимаем, чтобы не перегружать API
+    );
 
-      if (image != null) {
-        debugPrint('Файл выбран: ${image.path}');
-        // Здесь можно добавить логику отправки картинки
-      }
-    } catch (e) {
-      debugPrint('Ошибка при выборе фото: $e');
+    if (image != null) {
+      final bytes = await image.readAsBytes();
+      setState(() {
+        _base64Image = base64Encode(bytes);
+      });
     }
   }
+
+  // Отправка сообщения
+void _handleSend() {
+    final text = _controller.text.trim();
+    
+    // Если текста нет И картинки нет — ничего не делаем
+    if (text.isEmpty && _base64Image == null) return;
+
+    // 2. ПЕРЕДАЕМ ИМЕННО _base64Image (с подчеркиванием, как назвали выше)
+    widget.onSendPressed(text, _base64Image); 
+
+    _controller.clear();
+    
+    // 3. ОЧИЩАЕМ КАРТИНКУ ПОСЛЕ ОТПРАВКИ
+    setState(() {
+      _base64Image = null; 
+    });
+  }
+
+  // // Открытие галереи
+  // Future<void> _openGallery() async {
+  //   try {
+  //     final XFile? image = await _picker.pickImage(
+  //       source: ImageSource.gallery,
+  //       imageQuality: 80,
+  //     );
+
+  //     if (image != null) {
+  //       debugPrint('Файл выбран: ${image.path}');
+  //       // Здесь можно добавить логику отправки картинки
+  //     }
+  //   } catch (e) {
+  //     debugPrint('Ошибка при выборе фото: $e');
+  //   }
+  // }
 
   // Открытие ссылок
 void _launchURL(String url) async {
@@ -52,6 +81,8 @@ void _launchURL(String url) async {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        if (_base64Image != null)
+          Image.memory(base64Decode(_base64Image!), height: 100),
         // 1. Быстрые кнопки (Чипсы)
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -83,7 +114,7 @@ void _launchURL(String url) async {
                 // Кнопка Плюс (Галерея)
                 IconButton(
                   icon: const Icon(Icons.add, color: Colors.white70),
-                  onPressed: _openGallery,
+                  onPressed: _pickImage,
                 ),
                 
                 // Самое поле ввода
@@ -104,7 +135,14 @@ void _launchURL(String url) async {
                 // Кнопка Отправить (Стрелочка)
                 IconButton(
                   icon: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 28),
-                  onPressed: _handleSend,
+                  onPressed: () {
+                    if (_controller.text.isNotEmpty || _base64Image != null) {
+                  // ПЕРЕДАЕМ ДВА ПАРАМЕТРА
+                  widget.onSendPressed(_controller.text, _base64Image);
+                  _controller.clear();
+                  setState(() => _base64Image = null);
+                    }
+                  }
                 ),
               ],
             ),

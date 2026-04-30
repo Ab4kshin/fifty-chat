@@ -1,16 +1,45 @@
-# fifty_chat
+# FiftyChat 💬
 
-A new Flutter project.
+A cross-platform mobile application for [chat.fifty.su](https://chat.fifty.su) — a real-time messaging platform.
+
+![Main screen](screenshots/main.png)
+
+## Features
+
+- 💬 Real-time messaging via the fifty.su API
+- 📱 Cross-platform: Android & iOS
+- 🔔 Chat notifications
+- 🧭 Clean and simple UI
+
+## Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| Flutter / Dart | Cross-platform mobile framework |
+| C++ | Native platform integration |
+| Swift | iOS-specific components |
+| REST API | Communication with chat.fifty.su |
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+- Flutter SDK 3.x+
+- Android Studio or Xcode
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Installation
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+git clone https://github.com/Ab4kshin/fifty-chat.git
+cd fifty-chat/fifty_chat
+flutter pub get
+flutter run
+```
+
+## Download
+
+📦 [Download latest release (APK)](https://github.com/Ab4kshin/fifty-chat/releases/tag/Release)
+
+## License
+
+MIT License — see [LICENSE](LICENSE) for details.

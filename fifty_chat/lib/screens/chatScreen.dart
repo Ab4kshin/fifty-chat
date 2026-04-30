@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../widgets/chatInputSection.dart';
@@ -42,7 +43,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   // Функция для ПОСЛЕДУЮЩИХ сообщений
-  Future<void> _sendMessage(String text) async {
+  Future<void> _sendMessage(String text, String? b64Image) async {
     setState(() {
       _messages.add(ChatMessage(text: text, isUser: true));
       _isLoading = true;
@@ -55,7 +56,8 @@ class _ChatScreenState extends State<ChatScreen> {
         body: jsonEncode({
           "content": text,
           "model": "x-ai/grok-4.1-fast",
-          "chat_id": widget.chatId // <--- ВОТ ОНА, ПАМЯТЬ! Отправляем ID.
+          "chat_id": widget.chatId,
+          "image": b64Image,
         }),
       );
 

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = false;
 
   // Твоя новая логика отправки первого сообщения
-  Future<void> _handleInitialMessage(String text) async {
+  Future<void> _handleInitialMessage(String text, String? b64Image) async {
     setState(() => _isLoading = true);
 
     try {
@@ -25,7 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           "content": text,
-          "model": "x-ai/grok-4.1-fast"
+          "model": "x-ai/grok-4.1-fast",
+          "image": b64Image,
         }),
       );
 
